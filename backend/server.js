@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const dns = require("dns");
 // Add this near the top, with your other requires
 const authRoutes = require('./routes/authRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 dns.setServers([
   "8.8.8.8",
   "1.1.1.1"
@@ -19,6 +20,7 @@ const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
 
 // Health check route
 app.get('/health', (req, res) => {
