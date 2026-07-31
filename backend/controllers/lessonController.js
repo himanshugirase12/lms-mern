@@ -1,6 +1,7 @@
 const Lesson = require('../models/Lesson');
 const Course = require('../models/Course');
-
+const fs = require('fs');
+const path = require('path');
 // @route  POST /api/lessons/:courseId
 // @access Instructor only (must own the course)
 const addLesson = async (req, res) => {
@@ -39,4 +40,51 @@ const addLesson = async (req, res) => {
   }
 };
 
-module.exports = { addLesson };
+const streamVideo = async (req, res) => {
+    try {
+      const lesson = await Lesson.findById(req.params.lessonId);
+      if (!lesson) {
+        return res.status(404).json({ message: 'Lesson not found' });
+      }
+  
+      const videoPath = path.join(__dirname, '..', lesson.videoPath);
+  
+      if (!fs.existsSync(videoPath)) {
+        return res.status(404).json({ message: 'Video file not found on server' });
+      }
+  
+      const videoSize = fs.statSync(videoPath).size;
+      const range = req.headers.range;
+  
+      if (!range) {
+        // No range header — just send the whole file (rare case, e.g. direct download)
+        res.writeHead(200, {
+          'Content-Length': videoSize,
+          'Content-Type': 'video/mp4',
+        });
+        return fs.createReadStream(videoPath).pipe(res);
+      }
+  
+      // Parse the range header, e.g. "bytes=0-"
+      const CHUNK_SIZE = 10 ** 6; // 1MB per chunk
+      
+      const parts = range.replace(/bytes=/, '').split('-');
+      const start = Number(parts[0]);
+      const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+      const contentLength = end - start + 1;
+  
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': contentLength,
+        'Content-Type': 'video/mp4',
+      });
+  
+      const videoStream = fs.createReadStream(videoPath, { start, end });
+      videoStream.pipe(res);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error', error: err.message });
+    }
+  };
+  
+  module.exports = { addLesson, streamVideo };
