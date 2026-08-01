@@ -9,6 +9,8 @@ const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const lessonRoutes = require('./routes/lessonRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const enrollmentRoutes = require('./routes/enrollmentRoutes');
+
 dns.setServers([
   "8.8.8.8",
   "1.1.1.1"
@@ -27,6 +29,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
+
 // Health check route
 app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
