@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import BrowseCourses from './pages/BrowseCourses';
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<div className="p-6">Homepage — course browsing goes here next</div>} />
+        <Route path="/" element={<BrowseCourses />} />
       </Routes>
     </div>
   );
