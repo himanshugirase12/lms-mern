@@ -3,16 +3,22 @@ const jwt = require('jsonwebtoken');
 // Checks if a valid JWT was sent — blocks the request if not
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
+  let token;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.split(' ')[1];
+  } else if (req.query.token) {
+    // Fallback for requests that can't send custom headers, like <video> tags
+    token = req.query.token;
+  }
+
+  if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
 
-  const token = authHeader.split(' ')[1];
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // { id, role } — attached for use in later routes
+    req.user = decoded;
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Invalid or expired token' });
