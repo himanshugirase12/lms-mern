@@ -4,6 +4,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import BrowseCourses from './pages/BrowseCourses';
 import CourseDetail from './pages/CourseDetail';
+import ProtectedRoute from './components/ProtectedRoute';
+import StudentDashboard from './pages/StudentDashboard';
+
 
 function App() {
   return (
@@ -14,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<BrowseCourses />} />
         <Route path="/courses/:courseId" element={<CourseDetail />} />
+        <Route path="/dashboard"  element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>}/>
       </Routes>
     </div>
   );

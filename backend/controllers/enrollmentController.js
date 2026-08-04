@@ -115,4 +115,38 @@ const markLessonComplete = async (req, res) => {
     }
   };
   
-  module.exports = { enrollInCourse, getLessonsByCourse, markLessonComplete };
+  // @route  GET /api/enrollments/my-courses
+// @access Student only
+const getMyEnrollments = async (req, res) => {
+  try {
+    const enrollments = await Enrollment.find({ student: req.user.id }).populate(
+      'course'
+    );
+
+    // Calculate progress percentage for each enrolled course
+    const enrichedEnrollments = await Promise.all(
+      enrollments.map(async (enrollment) => {
+        const totalLessons = await Lesson.countDocuments({ course: enrollment.course._id });
+        const completedCount = enrollment.progress.filter((p) => p.completed).length;
+        const percentComplete = totalLessons > 0
+          ? Math.round((completedCount / totalLessons) * 100)
+          : 0;
+
+        return {
+          _id: enrollment._id,
+          course: enrollment.course,
+          percentComplete,
+          totalLessons,
+          completedCount,
+        };
+      })
+    );
+
+    res.status(200).json(enrichedEnrollments);
+  } catch (err) {
+    console.error('Get my enrollments error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+module.exports = { enrollInCourse, getLessonsByCourse, markLessonComplete, getMyEnrollments };
