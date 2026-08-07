@@ -33,9 +33,8 @@ app.use('/api/enrollments', enrollmentRoutes);
 
 // Health check route
 app.get('/health', (req, res) => {
-  res.json({ status: 'Server is running' });
+ res.json({ status: 'Server is running' });
 });
-
 // Connect to MongoDB, then start server
 const PORT = process.env.PORT || 5000;
 

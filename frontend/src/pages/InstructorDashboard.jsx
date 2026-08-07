@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import Card from '../components/Card';
 import Button from '../components/Button';
-
+import { Link } from 'react-router-dom';
 const InstructorDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -169,21 +169,14 @@ const InstructorDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {courses.map((course) => (
           <Card key={course._id} className="p-4">
-            <div className="h-20 bg-indigo-50 dark:bg-indigo-950 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
-              {course.thumbnail ? (
-                <img
-                  src={`http://localhost:5000/${course.thumbnail}`}
-                  alt={course.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-xl">📘</span>
-              )}
-            </div>
-            <p className="font-medium dark:text-gray-100 mb-1">{course.title}</p>
-            <p className="text-xs dark:text-gray-400 mb-2">
-              {course.price === 0 ? 'Free' : `₹${course.price}`} &middot; {course.lessons?.length || 0} lessons
+          <Link to={`/courses/${course._id}`}>
+            <p className="font-medium text-gray-900 dark:text-zinc-100 mb-1 hover:text-indigo-600 dark:hover:text-indigo-400">
+              {course.title}
             </p>
+          </Link>
+          <p className="text-xs text-gray-500 dark:text-zinc-400 mb-2">
+            {course.price === 0 ? 'Free' : `₹${course.price}`} &middot; {course.lessons?.length || 0} lessons
+          </p>
 
             {lessonCourseId === course._id ? (
               <form onSubmit={handleUploadLesson} className="space-y-2 mt-3 border-t pt-3">

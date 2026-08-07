@@ -48,7 +48,7 @@ const BrowseCourses = () => {
               <div className="h-24 bg-indigo-50 dark:bg-indigo-950 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
                 {course.thumbnail ? (
                   <img
-                    src={`http://localhost:5000/${course.thumbnail}`}
+                  src={`${import.meta.env.VITE_API_BASE || 'http://localhost:5000'}/${course.thumbnail}`}
                     alt={course.title}
                     className="w-full h-full object-cover"
                   />

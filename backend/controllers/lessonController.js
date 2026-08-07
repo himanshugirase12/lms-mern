@@ -1,5 +1,6 @@
 const Lesson = require('../models/Lesson');
 const Course = require('../models/Course');
+const Enrollment = require('../models/Enrollment');
 const fs = require('fs');
 const path = require('path');
 // @route  POST /api/lessons/:courseId
@@ -41,11 +42,25 @@ const addLesson = async (req, res) => {
 };
 
 const streamVideo = async (req, res) => {
-    try {
-      const lesson = await Lesson.findById(req.params.lessonId);
-      if (!lesson) {
-        return res.status(404).json({ message: 'Lesson not found' });
+  try {
+    const lesson = await Lesson.findById(req.params.lessonId);
+    if (!lesson) {
+      return res.status(404).json({ message: 'Lesson not found' });
+    }
+
+    // Access control: must be the course owner OR an enrolled student
+    const course = await Course.findById(lesson.course);
+    const isOwner = course.instructor.toString() === req.user.id;
+
+    if (!isOwner) {
+      const enrollment = await Enrollment.findOne({
+        student: req.user.id,
+        course: lesson.course,
+      });
+      if (!enrollment) {
+        return res.status(403).json({ message: 'You do not have access to this video' });
       }
+    }
   
       const videoPath = path.join(__dirname, '..', lesson.videoPath);
   

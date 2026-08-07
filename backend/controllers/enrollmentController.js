@@ -49,19 +49,30 @@ const getLessonsByCourse = async (req, res) => {
   try {
     const { courseId } = req.params;
 
-    // Confirm the student is actually enrolled in this course
-    const enrollment = await Enrollment.findOne({
-      student: req.user.id,
-      course: courseId,
-    });
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
 
-    if (!enrollment) {
-      return res.status(403).json({ message: 'You are not enrolled in this course' });
+    const isOwner = course.instructor.toString() === req.user.id;
+    let progress = [];
+
+    if (!isOwner) {
+      const enrollment = await Enrollment.findOne({
+        student: req.user.id,
+        course: courseId,
+      });
+
+      if (!enrollment) {
+        return res.status(403).json({ message: 'You are not enrolled in this course' });
+      }
+
+      progress = enrollment.progress;
     }
 
     const lessons = await Lesson.find({ course: courseId }).sort({ order: 1 });
 
-    res.status(200).json({ lessons, progress: enrollment.progress });
+    res.status(200).json({ lessons, progress });
   } catch (err) {
     console.error('Get lessons error:', err);
     res.status(500).json({ message: 'Server error', error: err.message });

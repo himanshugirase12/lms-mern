@@ -118,7 +118,7 @@ const CourseDetail = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto">
       {course.thumbnail && (
-      <img src={`http://localhost:5000/${course.thumbnail}`} alt={course.title}
+      <img src={`${import.meta.env.VITE_API_BASE || 'http://localhost:5000'}/${course.thumbnail}`} alt={course.title}
        className="w-full h-48 object-cover rounded-xl mb-4"
       />
       )}
@@ -154,7 +154,7 @@ const CourseDetail = () => {
                   key={activeLesson._id}
                   controls
                   className="w-full rounded-xl bg-black aspect-video"
-                  src={`http://localhost:5000/api/lessons/stream/${activeLesson._id}?token=${localStorage.getItem('token')}`}
+                  src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/lessons/stream/${activeLesson._id}?token=${localStorage.getItem('token')}`}
                 />
                 <p className="font-medium text-gray-900 mt-3">{activeLesson.title}</p>
                 <Button
