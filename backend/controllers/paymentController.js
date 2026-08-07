@@ -35,7 +35,7 @@ const createOrder = async (req, res) => {
 
     // Razorpay expects amount in paise (smallest currency unit), not rupees
     const options = {
-        amount: course.price,
+        amount: course.price * 100, 
         currency: 'INR',
         receipt: `rcpt_${Date.now()}`,
       };
