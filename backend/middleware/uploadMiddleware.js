@@ -1,13 +1,16 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
-// Configure where and how files are stored
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // save all videos into the uploads/ folder
+    const dir = 'uploads/';
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
   },
   filename: (req, file, cb) => {
-    // e.g. 1721904123456-lecture1.mp4 — timestamp avoids name collisions
     const uniqueName = `${Date.now()}-${file.originalname}`;
     cb(null, uniqueName);
   },
