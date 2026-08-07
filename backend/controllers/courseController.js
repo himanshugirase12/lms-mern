@@ -10,11 +10,14 @@ const createCourse = async (req, res) => {
       return res.status(400).json({ message: 'Title and description are required' });
     }
 
+    const thumbnail = req.file ? req.file.path.replace(/\\/g, '/') : '';
+
     const course = await Course.create({
       title,
       description,
       price: price || 0,
-      instructor: req.user.id, // comes from verifyToken middleware
+      thumbnail,
+      instructor: req.user.id,
     });
 
     res.status(201).json(course);

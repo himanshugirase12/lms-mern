@@ -13,7 +13,11 @@ const courseSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      default: 0, // 0 = free course
+      default: 0,
+    },
+    thumbnail: {
+      type: String,
+      default: '',
     },
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
@@ -22,7 +26,7 @@ const courseSchema = new mongoose.Schema(
     },
     lessons: [
       {
-        type: mongoose.Schema.Types.ObjectId, // this field will store MongoDB's special unique ID format, not plain text or a number
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Lesson',
       },
     ],

@@ -7,7 +7,7 @@ const InstructorDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
+  const [thumbnailFile, setThumbnailFile] = useState(null);
   // Create course form state
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [title, setTitle] = useState('');
@@ -40,11 +40,23 @@ const InstructorDashboard = () => {
     e.preventDefault();
     setCreating(true);
     setError('');
+  
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('price', Number(price) || 0);
+    if (thumbnailFile) {
+      formData.append('thumbnail', thumbnailFile);
+    }
+  
     try {
-      await api.post('/courses', { title, description, price: Number(price) || 0 });
+      await api.post('/courses', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       setTitle('');
       setDescription('');
       setPrice('');
+      setThumbnailFile(null);
       setShowCreateForm(false);
       fetchCourses();
     } catch (err) {
@@ -135,6 +147,18 @@ const InstructorDashboard = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
+                Course thumbnail (optional)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setThumbnailFile(e.target.files[0])}
+                className="w-full text-sm"
+              />
+            </div>
+
             <Button type="submit" disabled={creating}>
               {creating ? 'Creating...' : 'Create course'}
             </Button>
