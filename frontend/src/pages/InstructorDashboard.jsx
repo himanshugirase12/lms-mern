@@ -169,6 +169,17 @@ const InstructorDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {courses.map((course) => (
           <Card key={course._id} className="p-4">
+            <div className="h-20 bg-indigo-50 dark:bg-indigo-950 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
+              {course.thumbnail ? (
+                <img
+                  src={`http://localhost:5000/${course.thumbnail}`}
+                  alt={course.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-xl">📘</span>
+              )}
+            </div>
             <p className="font-medium dark:text-gray-100 mb-1">{course.title}</p>
             <p className="text-xs dark:text-gray-400 mb-2">
               {course.price === 0 ? 'Free' : `₹${course.price}`} &middot; {course.lessons?.length || 0} lessons
