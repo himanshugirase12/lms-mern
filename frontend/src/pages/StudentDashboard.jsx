@@ -22,19 +22,19 @@ const StudentDashboard = () => {
     fetchEnrollments();
   }, []);
 
-  if (loading) return <div className="p-6 text-gray-500">Loading...</div>;
+  if (loading) return <div className="p-6 dark:text-gray-400">Loading...</div>;
   if (error) return <div className="p-6 text-red-600">{error}</div>;
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-xl font-semibold text-gray-900 mb-1">My learning</h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <h2 className="text-xl font-semibold dark:text-gray-100 mb-1">My learning</h2>
+      <p className="text-sm dark:text-gray-400 mb-6">
         {enrollments.length} course{enrollments.length !== 1 ? 's' : ''} enrolled
       </p>
 
       {enrollments.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 mb-4">You haven't enrolled in any courses yet.</p>
+          <p className="dark:text-gray-400 mb-4">You haven't enrolled in any courses yet.</p>
           <Link to="/" className="text-indigo-600 font-medium hover:underline">
             Browse courses
           </Link>
@@ -44,20 +44,20 @@ const StudentDashboard = () => {
           {enrollments.map((enrollment) => (
             <Link key={enrollment._id} to={`/courses/${enrollment.course._id}`}>
               <Card className="p-4 hover:shadow-md transition-shadow h-full">
-                <div className="h-20 bg-indigo-50 rounded-lg flex items-center justify-center mb-3">
+                <div className="h-20 dark-bg-indigo-950 rounded-lg flex items-center justify-center mb-3">
                   <span className="text-2xl">📘</span>
                 </div>
-                <p className="font-medium text-gray-900 mb-1">{enrollment.course.title}</p>
-                <p className="text-xs text-gray-500 mb-3">
+                <p className="font-medium dark:text-gray-100 mb-1">{enrollment.course.title}</p>
+                <p className="text-xs dark:text-gray-400 mb-3">
                   {enrollment.completedCount} of {enrollment.totalLessons} lessons
                 </p>
-                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-1.5 dark:bg-gray-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-indigo-600 rounded-full transition-all"
                     style={{ width: `${enrollment.percentComplete}%` }}
                   />
                 </div>
-                <p className="text-xs text-gray-400 mt-1.5">
+                <p className="text-xs dark:text-gray-400 mt-1.5">
                   {enrollment.percentComplete}% complete
                 </p>
               </Card>

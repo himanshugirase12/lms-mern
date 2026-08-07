@@ -33,8 +33,8 @@ const BrowseCourses = () => {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-xl font-semibold text-gray-900 mb-1">Browse courses</h2>
-      <p className="text-sm text-gray-500 mb-6">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">Browse courses</h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         {courses.length} course{courses.length !== 1 ? 's' : ''} available
       </p>
 
@@ -45,18 +45,18 @@ const BrowseCourses = () => {
           {courses.map((course) => (
             <Link key={course._id} to={`/courses/${course._id}`}>
               <Card className="p-4 hover:shadow-md transition-shadow h-full">
-                <div className="h-24 bg-indigo-50 rounded-lg flex items-center justify-center mb-3">
+              <div className="h-24  dark:bg-indigo-950 rounded-lg flex items-center justify-center mb-3">
                   <span className="text-2xl">📘</span>
                 </div>
-                <p className="font-medium text-gray-900 mb-1">{course.title}</p>
-                <p className="text-xs text-gray-500 mb-3">
+                <p className="font-medium text-gray-900 dark:text-gray-100 mb-1">{course.title}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                   By {course.instructor?.name || 'Unknown instructor'}
                 </p>
                 <p className="font-medium text-sm">
                   {course.price === 0 ? (
                     <span className="text-green-600">Free</span>
                   ) : (
-                    <span>₹{course.price}</span>
+                    <span className="text-blue-700">₹{course.price}</span>
                   )}
                 </p>
               </Card>

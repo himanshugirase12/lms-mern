@@ -88,8 +88,8 @@ const InstructorDashboard = () => {
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-1">My courses</h2>
-          <p className="text-sm text-gray-500">{courses.length} course{courses.length !== 1 ? 's' : ''} created</p>
+          <h2 className="text-xl font-semibold dark:text-gray-100 mb-1">My courses</h2>
+          <p className="text-sm dark:text-gray-400">{courses.length} course{courses.length !== 1 ? 's' : ''} created</p>
         </div>
         <Button onClick={() => setShowCreateForm(!showCreateForm)}>
           {showCreateForm ? 'Cancel' : '+ New course'}
@@ -145,8 +145,8 @@ const InstructorDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {courses.map((course) => (
           <Card key={course._id} className="p-4">
-            <p className="font-medium text-gray-900 mb-1">{course.title}</p>
-            <p className="text-xs text-gray-500 mb-2">
+            <p className="font-medium dark:text-gray-100 mb-1">{course.title}</p>
+            <p className="text-xs dark:text-gray-400 mb-2">
               {course.price === 0 ? 'Free' : `₹${course.price}`} &middot; {course.lessons?.length || 0} lessons
             </p>
 
