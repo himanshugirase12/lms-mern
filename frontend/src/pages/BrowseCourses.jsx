@@ -45,17 +45,11 @@ const BrowseCourses = () => {
           {courses.map((course) => (
             <Link key={course._id} to={`/courses/${course._id}`}>
               <Card className="p-4 hover:shadow-md transition-shadow h-full">
-              <div className="h-24 bg-indigo-50 dark:bg-indigo-950 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
-                {course.thumbnail ? (
-                  <img
-                  src={`${import.meta.env.VITE_API_BASE || 'http://localhost:5000'}/${course.thumbnail}`}
-                    alt={course.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-2xl">📘</span>
-                )}
-              </div>
+              <img
+                src={course.thumbnail}
+                alt={course.title}
+                className="w-full h-full object-cover"
+              />
                 <p className="font-medium text-gray-900 dark:text-gray-100 mb-1">{course.title}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                   By {course.instructor?.name || 'Unknown instructor'}

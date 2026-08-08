@@ -10,7 +10,7 @@ const createCourse = async (req, res) => {
       return res.status(400).json({ message: 'Title and description are required' });
     }
 
-    const thumbnail = req.file ? req.file.path.replace(/\\/g, '/') : '';
+    const thumbnail = req.file ? req.file.path : '';
 
     const course = await Course.create({
       title,

@@ -118,9 +118,11 @@ const CourseDetail = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto">
       {course.thumbnail && (
-      <img src={`${import.meta.env.VITE_API_BASE || 'http://localhost:5000'}/${course.thumbnail}`} alt={course.title}
-       className="w-full h-48 object-cover rounded-xl mb-4"
-      />
+        <img
+          src={course.thumbnail}
+          alt={course.title}
+          className="w-full h-48 object-cover rounded-xl mb-4"
+        />
       )}
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-1">{course.title}</h2>
       <p className="text-gray-500 dark:text-gray-400 mb-1">By {course.instructor?.name}</p>
