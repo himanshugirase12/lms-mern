@@ -22,6 +22,7 @@ const createCourse = async (req, res) => {
 
     res.status(201).json(course);
   } catch (err) {
+    console.error('Create course error:', JSON.stringify(err, null, 2));
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };

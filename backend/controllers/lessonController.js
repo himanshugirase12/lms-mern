@@ -36,6 +36,7 @@ const addLesson = async (req, res) => {
 
     res.status(201).json(lesson);
   } catch (err) {
+    console.error('Add lesson error:', JSON.stringify(err, null, 2));
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
