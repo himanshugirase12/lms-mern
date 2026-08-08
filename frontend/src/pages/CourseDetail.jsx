@@ -117,16 +117,16 @@ const CourseDetail = () => {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      {course.thumbnail && (
-        <img
-          src={course.thumbnail}
-          alt={course.title}
-          className="w-full h-48 object-cover rounded-xl mb-4"
-        />
-      )}
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-1">{course.title}</h2>
-      <p className="text-gray-500 dark:text-gray-400 mb-1">By {course.instructor?.name}</p>
-      <p className="text-gray-700 dark:text-gray-300 mb-4">{course.description}</p>
+    <div className="bg-slate-900 dark:bg-slate-950 rounded-xl p-6 mb-6">
+  <span className="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-medium px-3 py-1 rounded-full mb-3">
+    {course.price === 0 ? 'Free course' : 'Paid course'}
+  </span>
+  <h2 className="text-2xl md:text-3xl font-semibold text-white mb-2">{course.title}</h2>
+  <p className="text-slate-300 text-sm mb-4">{course.description}</p>
+  <p className="text-slate-400 text-sm">
+    Created by <span className="text-indigo-300 font-medium">{course.instructor?.name}</span>
+  </p>
+</div>
 
       {error && (
         <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded-lg mb-4">

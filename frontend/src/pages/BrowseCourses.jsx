@@ -45,11 +45,13 @@ const BrowseCourses = () => {
           {courses.map((course) => (
             <Link key={course._id} to={`/courses/${course._id}`}>
               <Card className="p-4 hover:shadow-md transition-shadow h-full">
-              <img
-                src={course.thumbnail}
-                alt={course.title}
-                className="w-full h-full object-cover"
-              />
+              <div className="w-full h-40 rounded-t-xl overflow-hidden">
+                <img
+                  src={course.thumbnail}
+                  alt={course.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
                 <p className="font-medium text-gray-900 dark:text-gray-100 mb-1">{course.title}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                   By {course.instructor?.name || 'Unknown instructor'}

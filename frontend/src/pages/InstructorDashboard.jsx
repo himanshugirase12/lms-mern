@@ -170,11 +170,13 @@ const InstructorDashboard = () => {
         {courses.map((course) => (
           <Card key={course._id} className="p-4">
           {course.thumbnail && (
+            <div className="w-full h-40 rounded-t-xl overflow-hidden">
             <img
               src={course.thumbnail}
               alt={course.title}
-              className="w-full h-20 object-cover rounded-lg mb-2"
+              className="w-full h-full object-cover"
             />
+          </div>
           )}
           <Link to={`/courses/${course._id}`}>
             <p className="font-medium text-gray-900 dark:text-zinc-100 mb-1 hover:text-indigo-600 dark:hover:text-indigo-400">

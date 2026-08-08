@@ -13,7 +13,16 @@ const { verifyToken, requireInstructor } = require('../middleware/authMiddleware
 router.get('/', getAllCourses);
 
 // Instructor-only routes — must be logged in AND be an instructor
-router.post('/', verifyToken, requireInstructor, uploadImage.single('thumbnail'), createCourse);
+router.post('/', verifyToken, requireInstructor, (req, res, next) => {
+  uploadImage.single('thumbnail')(req, res, (err) => {
+    if (err) {
+      console.error('MULTER/CLOUDINARY UPLOAD ERROR:', err.message);
+      console.error('FULL ERROR:', err);
+      return res.status(500).json({ message: 'Upload failed', error: err.message });
+    }
+    next();
+  });
+}, createCourse);
 router.get('/my-courses', verifyToken, requireInstructor, getInstructorCourses);
 
 module.exports = router;
